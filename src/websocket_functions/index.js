@@ -38,6 +38,7 @@ const registerLap = async (body, callback) => {
 
             const laps = [Number(laptime.lap_1), Number(laptime.lap_2), Number(laptime.lap_3), Number(laptime.lap_4), Number(laptime.lap_5)]
             timeboard.best_time = Math.min(...laps);
+            timeboard.finished_round = true
 
             await timeboard.save();
         }else {

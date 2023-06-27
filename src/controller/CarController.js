@@ -1,5 +1,8 @@
 import Car from '../models/Car';
 import Category from '../models/Category'
+import Timeboard from '../models/Timeboard';
+import Laptime from '../models/Laptime';
+import Championship from '../models/Championship';
 
 class CarController {
 
@@ -78,8 +81,32 @@ class CarController {
                 }
             ]
         });
+        if(car){
+            const timeboard = await Timeboard.findOne({
+                where:{
+                    car_id: car.id,
+                    finished_round: false
+                },
+                include: [
+                    {
+                        model: Car,
+                        as: 'car'
+                    },
+                    {
+                        model: Laptime,
+                        as: 'laptime'
+                    },
+                    {
+                        model: Championship,
+                        as: 'championship'
+                    }
+                ]
+            })
 
-        return res.json(car);
+            return res.json(timeboard);
+        }else {
+            return res.json(null)
+        }
     }
 
 }

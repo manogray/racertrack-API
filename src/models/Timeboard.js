@@ -5,7 +5,8 @@ class Timeboard extends Model {
         super.init(
             {
                 round_number: Sequelize.NUMBER,
-                best_time: Sequelize.NUMBER
+                best_time: Sequelize.NUMBER,
+                finished_round: Sequelize.BOOLEAN
             },
             {
                 sequelize

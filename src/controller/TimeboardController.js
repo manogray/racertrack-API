@@ -155,41 +155,74 @@ class TimeboardController {
                 ]
             });
         }else if(championship_id){
-            const car = await Car.findOne({
-                where: {
-                    plate: req.body.plate
-                }
-            })
 
-            timeboard = await Timeboard.findAll({
-                where: {
-                    championship_id,
-                    car_id: car.id
-                },
-                include: [
-                    {
-                        model: Car,
-                        as: 'car',
-                        include: [
-                            {
-                                model: Category,
-                                as: 'category'
-                            }
-                        ]
-                    },
-                    {
-                        model: Laptime,
-                        as: 'laptime'
-                    },
-                    {
-                        model: Championship,
-                        as: 'championship'
+            if(req.body.plate){
+
+                const car = await Car.findOne({
+                    where: {
+                        plate: req.body.plate
                     }
-                ],
-                order: [
-                    ['best_time']
-                ]
-            });
+                })
+
+                timeboard = await Timeboard.findAll({
+                    where: {
+                        championship_id,
+                        car_id: car.id
+                    },
+                    include: [
+                        {
+                            model: Car,
+                            as: 'car',
+                            include: [
+                                {
+                                    model: Category,
+                                    as: 'category'
+                                }
+                            ]
+                        },
+                        {
+                            model: Laptime,
+                            as: 'laptime'
+                        },
+                        {
+                            model: Championship,
+                            as: 'championship'
+                        }
+                    ],
+                    order: [
+                        ['best_time']
+                    ]
+                });
+            }else{
+                timeboard = await Timeboard.findAll({
+                    where: {
+                        championship_id,
+                    },
+                    include: [
+                        {
+                            model: Car,
+                            as: 'car',
+                            include: [
+                                {
+                                    model: Category,
+                                    as: 'category'
+                                }
+                            ]
+                        },
+                        {
+                            model: Laptime,
+                            as: 'laptime'
+                        },
+                        {
+                            model: Championship,
+                            as: 'championship'
+                        }
+                    ],
+                    order: [
+                        ['best_time']
+                    ]
+                });
+            }
         }else {
             return res.status(400).json({ error: "Need some parameter to filter timeboards (id, car_id or championship_id)" })
         }

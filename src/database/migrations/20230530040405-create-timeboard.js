@@ -47,6 +47,10 @@ module.exports = {
       best_time: {
         type: Sequelize.INTEGER,
         allowNull: true
+      },
+      finished_round: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
       }
     });
   },
