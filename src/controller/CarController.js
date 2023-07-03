@@ -103,7 +103,18 @@ class CarController {
                 ]
             })
 
-            return res.json(timeboard);
+            return res.json({
+                id: timeboard.id,
+                round_number: timeboard.round_number,
+                best_time: timeboard.best_time,
+                finished_round: timeboard.finished_round,
+                car_id: timeboard.car_id,
+                laptime_id: timeboard.laptime_id,
+                championship_id: timeboard.championship_id,
+                car: timeboard.car,
+                laptime: [ timeboard.laptime.lap_1, timeboard.laptime.lap_2, timeboard.laptime.lap_3, timeboard.laptime.lap_4, timeboard.laptime.lap_5 ],
+                championship: timeboard.championship
+            });
         }else {
             return res.json(null)
         }

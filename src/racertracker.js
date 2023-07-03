@@ -16,6 +16,8 @@ class RacerTrack {
 
         this.middlewares();
         this.routes();
+
+        this.socketio_configure();
     }
 
     middlewares(){
@@ -31,12 +33,17 @@ class RacerTrack {
     socketio_configure(){
         this.socket_server.on('connection', socket => {
             socket.emit('onConnection', 'Socket connected')
+
             socket.on('registerLap', message => {
                 console.log(`registering lap`)
                 registerLap(message, resultMessage => {
                     this.socket_server.emit('message', resultMessage)
                     this.socket_server.emit('toWebsite', message)
                 })
+            })
+
+            socket.on('disconnect', function() {
+                console.log("Socket disconnected")
             })
         })
     }
